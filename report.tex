@@ -1,0 +1,176 @@
+\documentclass[14pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{titlesec}
+\usepackage{array}
+
+% Center section titles and remove numbering
+\titleformat{\section}{\normalfont\Large\bfseries\centering}{}{0em}{}
+
+%----------------------------------------
+% Title Page
+%----------------------------------------
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \includegraphics[width=0.3\textwidth]{SEULogo.png}\par\vspace{1cm}
+    {\scshape\LARGE Southeast University, Bangladesh \par}
+    \vspace{1cm}
+    {\Large CSE261: Numerical Methods \par}
+    \vspace{0.5cm}
+    {\Large Group Assignment Report \par}
+    \vspace{1.5cm}
+    {\large \textbf{Assignment Topic:} Implement and Explain QR Decomposition and Use it to Solve a Least Squares Regression Problem. Discuss Numerical Stability Compared to LU Decomposition. \par}
+    \vfill
+    \textbf{Group Number: 06} \par
+    \vspace{0.5cm}
+    \begin{tabular}{|>{\centering\arraybackslash}m{6cm}|>{\centering\arraybackslash}m{6cm}|}
+        \hline
+        \textbf{Name} & \textbf{Student ID} \\
+        \hline
+        Jubair Hassan & 2023200000527 \\
+        \hline
+        Zahin Azam Khan & 2023200000592 \\
+        \hline
+        Md. Al Zaber Shawon & 2023100000493 \\
+        \hline
+        Md. Mehadi Hasan Siam & 2024000000100 \\
+        \hline
+        Md. Samzid Hassan & 2023100000482 \\
+        \hline
+        Member 6 & Student Code \\
+        \hline
+    \end{tabular}
+    \vfill
+
+    \textbf{Submitted To:}  \par
+    [TMD] Tashreef Muhammad  \\
+    Lecturer, Dept. of CSE  \\
+    Southeast University, Bangladesh \par
+    \vfill
+    Summer 2025
+\end{titlepage}
+
+%----------------------------------------
+% Abstract
+%----------------------------------------
+\begin{abstract}
+This report presents the implementation and analysis of QR Decomposition for solving least squares regression problems. The work covers the theoretical background, algorithm formulation, implementation in Python, numerical results, and a comparison of stability with LU decomposition. The findings show that QR decomposition provides improved numerical stability for ill-conditioned systems, making it a preferred approach in least squares problems.
+\end{abstract}
+
+%----------------------------------------
+% Sections
+%----------------------------------------
+
+\section{Introduction}
+Numerical methods are essential for solving mathematical problems that cannot be addressed analytically. Matrix decomposition techniques, such as LU and QR, play an important role in linear algebra and its applications. QR decomposition, in particular, is widely used in least squares regression, signal processing, and numerical optimization.  
+
+The objective of this work is to:  
+\begin{itemize}
+    \item Implement QR decomposition.  
+    \item Use it to solve a least squares regression problem.  
+    \item Compare its stability with LU decomposition.  
+\end{itemize}
+
+\section{Theoretical Background}
+Given a matrix $A \in \mathbb{R}^{m \times n}$ with $m \geq n$, QR decomposition factors $A$ into:
+\[
+A = QR
+\]
+where:  
+\begin{itemize}
+    \item $Q$ is an $m \times n$ orthogonal matrix ($Q^TQ = I$).  
+    \item $R$ is an $n \times n$ upper triangular matrix.  
+\end{itemize}
+
+In least squares regression, the problem is to minimize:
+\[
+\min_x \|Ax - b\|_2
+\]
+Using QR decomposition:
+\[
+x = R^{-1}Q^Tb
+\]
+
+\section{Methodology}
+We used the Gram–Schmidt orthogonalization process to construct $Q$ and $R$.  
+
+\vspace{0.5cm}
+\noindent\textbf{Pseudocode for QR via Gram–Schmidt:}  
+\begin{enumerate}
+    \item Input: Matrix $A$ with columns $a_1, a_2, \dots, a_n$.  
+    \item For $j = 1$ to $n$:  
+    \begin{enumerate}
+        \item $u_j = a_j - \sum_{k=1}^{j-1} \text{proj}_{q_k}(a_j)$  
+        \item $q_j = \frac{u_j}{\|u_j\|}$  
+        \item $r_{kj} = q_k^T a_j$ for $k < j$, and $r_{jj} = \|u_j\|$  
+    \end{enumerate}
+    \item Output: $Q = [q_1, q_2, \dots, q_n]$, $R = [r_{ij}]$.  
+\end{enumerate}
+
+\section{Implementation}
+We implemented the algorithm in Python. The repository includes code for:  
+\begin{itemize}
+    \item QR decomposition (Gram–Schmidt).  
+    \item Least squares regression solver using QR.  
+    \item Comparison with LU decomposition.  
+\end{itemize}
+
+The GitHub repository is organized with:  
+\begin{itemize}
+    \item \texttt{qrdecomposition.py} – QR implementation.  
+    \item \texttt{leastsquares.py} – regression solver.  
+    \item \texttt{lucomparison.py} – stability comparison.  
+    \item \texttt{plots/} – output plots.  
+    \item \texttt{README.md} – documentation.  
+\end{itemize}
+
+Link: \url{https://github.com/your-username/cse261qrleastsquares}  
+
+\section{Results and Analysis}
+We tested the regression problem using synthetic data generated with noise. The fitted regression line was obtained using QR decomposition.  
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{plots/regression.png}
+    \caption{Least squares regression line using QR decomposition}
+\end{figure}
+
+To compare stability, we introduced perturbations in the input matrix and solved using both LU and QR. QR decomposition showed lower error growth.  
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{plots/lu_vs_qr_error.png}
+    \caption{Error growth in LU vs QR decomposition}
+\end{figure}
+
+\section{Discussion}
+The results indicate that:  
+\begin{itemize}
+    \item QR decomposition gives stable solutions in regression, even with noisy data.  
+    \item LU decomposition is more sensitive to round-off errors and ill-conditioned matrices.  
+    \item QR requires more computation than LU, but the trade-off is justified in least squares problems.  
+\end{itemize}
+
+\section{Conclusion}
+\begin{itemize}
+    \item QR decomposition is reliable for least squares regression.  
+    \item It provides improved stability compared to LU decomposition.  
+    \item The method is computationally more expensive, but essential in practice.  
+    \item Future work: Explore Householder transformations and Givens rotations for efficiency.  
+\end{itemize}
+
+\section{References}
+\begin{enumerate}
+    \item Lloyd N. Trefethen and David Bau, \textit{Numerical Linear Algebra}, SIAM, 1997.  
+    \item Richard L. Burden and J. Douglas Faires, \textit{Numerical Analysis}, 10th Edition, Cengage Learning, 2015.  
+    \item Gilbert Strang, \textit{Linear Algebra and Its Applications}, 4th Edition, Brooks Cole, 2005.  
+    \item \url{https://numpy.org/doc/stable/reference/generated/numpy.linalg.qr.html}  
+\end{enumerate}
+
+\end{document}
