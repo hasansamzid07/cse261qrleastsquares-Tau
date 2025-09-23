@@ -25,3 +25,4 @@ if __name__ == "__main__":
     print("Q:\n", Q)
     print("R:\n", R)
     print("Check A = QR:\n", np.allclose(A, Q @ R))
+
