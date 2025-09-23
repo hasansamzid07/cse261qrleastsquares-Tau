@@ -45,3 +45,4 @@ if __name__ == "__main__":
     plt.legend()
     plt.savefig("plots/error_analysis.png")
     plt.show()
+
