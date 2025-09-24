@@ -1,4 +1,4 @@
-# <div align="center">Group Assignment – CSE261 - Numerical Methods</div>
+# <div align="center">Group Assignment of CSE261 (Numerical Methods)</div>
 
 ## <div align="center">Topic Name</div>  
 <div align="center"><b>Implement and Explain QR Decomposition and Use it to Solve a Least Squares Regression Problem. Discuss Numerical Stability Compared to LU Decomposition.</b></div>  
@@ -30,6 +30,7 @@ This project implements QR Decomposition (using the Gram–Schmidt process) and 
 ---
 
 ## <div align="center">[Click here to view the report on (LaTeX)](https://www.overleaf.com/read/gytsgwghkjkk#2a40ed)</div>
+
 
 
 
